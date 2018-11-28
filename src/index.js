@@ -19,8 +19,11 @@ export const defaultEquality = (itemA, itemB) => {
   return itemA === itemB ? true : false;
 };
 
-export const areEqual = (itemA, itemB) => {
-
+export const reactPropsEquality = (itemA, itemB) => {
+  const keysA = Object.keys(itemA);
+  const keysB = Object.keys(itemB);
+  if(keysA.length !== keysB.length) return false;
+  return keysA.every(key => defaultEquality(itemA[key], itemB[key]));
 };
 
 export const reactMemoize = (Component) => {
