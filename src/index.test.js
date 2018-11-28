@@ -24,9 +24,11 @@ describe('memoize(fn, equality)', () => {
   });
 
   test('memoize allows second with different args', () => {
-
-
-
+    const func = jest.fn();
+    const memo = memoize(func);
+    memo();
+    memo('sdf');
+    expect(func.mock.calls.length).toBe(2);
   });
 
 
