@@ -9,7 +9,8 @@ export const memoize = (fn, equality) => {
     if(lastArgs == argString) return lastResult;
 
     lastArgs = argString;
-    const result = fn.apply(null, args);
+    let result;
+    result = lastResult = fn.apply(null, args);
     return result;
   };
 };
