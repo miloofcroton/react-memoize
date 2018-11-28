@@ -22,19 +22,13 @@ export const reactPropsEquality = (prevProps, newProps) => {
   return keysPrev.every(key => prevProps[key] === newProps[key]);
 };
 
-// export const reactMemoize = (Component) => {
+export const reactMemoize = (Component) => {
+  let prevProps, render;
 
-//   let prevProps, render;
-
-//   return function(){
-//     const newProps = [...arguments];
-//     if(reactPropsEquality(prevProps, newProps)) return render;
-
-//     prevProps = newProps;
-
-//     render = Component.apply(null, newProps);
-//     return render;
-//   };
-
-
-// };
+  return function(){
+    const newProps = [...arguments][0];
+    if(prevProps && reactPropsEquality(prevProps, newProps)) return render;
+    prevProps = newProps;
+    return render = Component.apply(null, newProps);
+  };
+};

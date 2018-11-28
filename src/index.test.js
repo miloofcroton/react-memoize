@@ -1,3 +1,5 @@
+import React from 'react';
+import { shallow } from 'enzyme';
 import { memoize, areEqual, reactMemoize, defaultEquality, reactPropsEquality } from './index';
 
 describe('memoize(fn, equality)', () => {
@@ -86,5 +88,28 @@ describe('reactPropsEquality(itemA, itemB)', () => {
     const props2 = { x: 3, y: 4 };
     const comp = reactPropsEquality(props1, props2);
     expect(comp).toBe(false);
+  });
+});
+
+describe('reactMemoize(Component)', () => {
+
+  test('Component does not rerender if props are the same', () => {
+    const component = jest.fn();
+    const props1 = { x: 1, y: 2 };
+    const props2 = { x: 1, y: 2 };
+    const test = reactMemoize(component);
+    test(props1);
+    test(props2);
+    expect(component.mock.calls.length).toBe(1);
+  });
+
+  test('Component does rerender if props are different', () => {
+    const component = jest.fn();
+    const props1 = { x: 1, y: 2 };
+    const props2 = { x: 3, y: 4 };
+    const test = reactMemoize(component);
+    test(props1);
+    test(props2);
+    expect(component.mock.calls.length).toBe(2);
   });
 });
