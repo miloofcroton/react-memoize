@@ -15,6 +15,10 @@ export const memoize = (fn, equality) => {
   };
 };
 
+export const defaultEquality = (itemA, itemB) => {
+  return itemA === itemB ? true : false;
+};
+
 export const areEqual = (itemA, itemB) => {
 
 };

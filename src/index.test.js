@@ -1,7 +1,6 @@
-import { memoize, areEqual, reactMemoize } from './index';
+import { memoize, defaultEquality, areEqual, reactMemoize } from './index';
 
 describe('memoize(fn, equality)', () => {
-
 
   test('memoize returns a function', () => {
     const memo = memoize();
@@ -51,6 +50,22 @@ describe('memoize(fn, equality)', () => {
     const run2 = memo('asdf');
     expect(run1).toBe(10);
     expect(run2).toBe(20);
+  });
+});
+
+describe('defaultEquality(itemA, itemB)', () => {
+
+  test('returns true if both args are the same', () => {
+    const comp1 = defaultEquality(1, 1);
+    const comp2 = defaultEquality('abc', 'abc');
+    expect(comp1).toBe(true);
+    expect(comp2).toBe(true);
+  });
+  test('returns false if args are different', () => {
+    const comp1 = defaultEquality(1, 2);
+    const comp2 = defaultEquality('abc', 'def');
+    expect(comp1).toBe(false);
+    expect(comp2).toBe(false);
   });
 
 
