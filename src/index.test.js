@@ -3,9 +3,9 @@ import { memoize, areEqual, reactMemoize } from './index';
 describe('memoize(fn, equality)', () => {
 
 
-  test('memoize does something', () => {
-
-
+  test('memoize returns a function', () => {
+    const memo = memoize();
+    expect(memo).toBeInstanceOf(Function);
   });
 
 
