@@ -2,6 +2,8 @@ import { memoize, areEqual, reactMemoize, defaultEquality, reactPropsEquality } 
 
 describe('memoize(fn, equality)', () => {
 
+  const strictEquals = (itemA, itemB) => itemA === itemB;
+
   test('memoize returns a function', () => {
     const memo = memoize();
     expect(memo).toBeInstanceOf(Function);
@@ -9,14 +11,14 @@ describe('memoize(fn, equality)', () => {
 
   test('memoize calls the function it is given', () => {
     const func = jest.fn();
-    const memo = memoize(func);
+    const memo = memoize(func, strictEquals);
     memo();
     expect(func.mock.calls.length).toBe(1);
   });
 
   test('memoize prevents second calling with same args', () => {
     const func = jest.fn();
-    const memo = memoize(func);
+    const memo = memoize(func, strictEquals);
     memo();
     memo();
     expect(func.mock.calls.length).toBe(1);
@@ -24,7 +26,7 @@ describe('memoize(fn, equality)', () => {
 
   test('memoize allows second calling with different args', () => {
     const func = jest.fn();
-    const memo = memoize(func);
+    const memo = memoize(func, strictEquals);
     memo();
     memo('sdf');
     expect(func.mock.calls.length).toBe(2);
@@ -33,7 +35,7 @@ describe('memoize(fn, equality)', () => {
   test('memoize returns cache of the last result', () => {
     const func = jest.fn();
     func.mockReturnValueOnce(10);
-    const memo = memoize(func);
+    const memo = memoize(func, strictEquals);
     const run1 = memo();
     const run2 = memo();
     expect(run1).toBe(10);
@@ -45,7 +47,7 @@ describe('memoize(fn, equality)', () => {
     func
       .mockReturnValueOnce(10)
       .mockReturnValueOnce(20);
-    const memo = memoize(func);
+    const memo = memoize(func, strictEquals);
     const run1 = memo('xyz');
     const run2 = memo('asdf');
     expect(run1).toBe(10);
